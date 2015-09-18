@@ -1,0 +1,40 @@
+.select2-mobile .select2-drop-mask {
+    opacity: 0.7;
+    background-color: #000;
+}
+
+.select2-mobile .select2-drop {
+    top: auto;
+}
+
+.select2-mobile .select2-results {
+    margin-top: 0;
+}
+
+.select2-mobile .select2-results li {
+    position: relative;
+}
+
+.select2-mobile .select2-results .select2-result-label {
+    text-align: center;
+    padding: 10px;
+}
+
+.select2-mobile .select2-results .select2-no-results,
+.select2-mobile .select2-results .select2-searching,
+.select2-mobile .select2-results .select2-selection-limit {
+    text-align: center;
+}
+
+.select2-mobile .select2-results li:after {
+  content: '';
+  height: 0;
+  background: #C5C5C5;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 1px;
+  margin-left: 0;
+}

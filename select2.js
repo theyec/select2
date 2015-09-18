@@ -672,6 +672,15 @@ the specific language governing permissions and limitations under the Apache Lic
         return constructor;
     }
 
+    function checkIsMobile() {
+        var _ua = window.navigator.userAgent;
+        var isIDevice = (/iphone|ipod|ipad/i).test(_ua);
+        var isMobileChrome = _ua.indexOf('Android') > -1 && (/Chrome\/[.0-9]*/).test(_ua);
+        var isMobileIE = _ua.indexOf('Windows Phone') > -1;
+        // if any is true, it's mobile
+        return (isIDevice || isMobileChrome || isMobileIE) ? true : false;
+    }
+
     AbstractSelect2 = clazz(Object, {
 
         // abstract
@@ -1243,8 +1252,8 @@ the specific language governing permissions and limitations under the Apache Lic
                 viewportBottom = $window.scrollTop() + windowHeight,
                 dropTop = offset.top + height,
                 dropLeft = offset.left,
-                enoughRoomBelow = dropTop + dropHeight <= viewportBottom,
-                enoughRoomAbove = (offset.top - dropHeight) >= $window.scrollTop(),
+                enoughRoomBelow = true,
+                enoughRoomAbove = false,
                 dropWidth = $dropdown.outerWidth(false),
                 enoughRoomOnRight = function() {
                     return dropLeft + dropWidth <= viewPortRight;
@@ -1337,7 +1346,15 @@ the specific language governing permissions and limitations under the Apache Lic
                 $dropdown.removeClass("select2-drop-above");
             }
             css = $.extend(css, evaluate(this.opts.dropdownCss, this.opts.element));
-
+            if (checkIsMobile()) {
+                $('body').addClass('select2-mobile');
+                css = {
+                    'position': 'fixed',
+                    'width': '100%',
+                    'bottom': '0',
+                    'z-index': '999999'
+                }
+            }
             $dropdown.css(css);
         },
 
@@ -3506,7 +3523,7 @@ the specific language governing permissions and limitations under the Apache Lic
          formatInputTooLong: function (input, max) { var n = input.length - max; return "Please delete " + n + " character" + (n == 1 ? "" : "s"); },
          formatSelectionTooBig: function (limit) { return "You can only select " + limit + " item" + (limit == 1 ? "" : "s"); },
          formatLoadMore: function (pageNumber) { return "Loading more results…"; },
-         formatSearching: function () { return "Searching…"; }
+         formatSearching: function () { return "Loading…"; }
     };
 
     $.extend($.fn.select2.defaults, $.fn.select2.locales['en']);
